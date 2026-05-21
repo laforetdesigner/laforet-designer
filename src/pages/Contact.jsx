@@ -50,7 +50,9 @@ export default function Contact() {
     if (Object.keys(errs).length) { setErrors(errs); return }
     setSending(true)
     try {
-      const res = await fetch('/api/contact', {
+      const wpBase = (import.meta.env.VITE_WP_API_URL || 'https://cms.laforetdesigner.com/wp-json/wp/v2')
+        .replace('/wp/v2', '')
+      const res = await fetch(`${wpBase}/site/v1/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
