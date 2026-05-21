@@ -133,6 +133,15 @@ export async function fetchRessources() {
   return posts.map(toRessource)
 }
 
+/** Paramètres du site (plugin Laforet Settings) */
+export async function fetchSiteSettings() {
+  const base = (import.meta.env.VITE_WP_API_URL || 'https://cms.laforetdesigner.com/wp-json/wp/v2')
+    .replace('/wp/v2', '')
+  const res = await fetch(`${base}/site/v1/settings`)
+  if (!res.ok) throw new Error(`Settings API ${res.status}`)
+  return res.json()
+}
+
 /** Tous les posts (pour blog général) */
 export async function fetchPosts(params = {}) {
   const posts = await wpFetch('/posts', {

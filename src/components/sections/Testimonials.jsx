@@ -1,7 +1,13 @@
 import Reveal from '../ui/Reveal'
-import { TESTIMONIALS } from '../../data/mockData'
+import { useSiteSettings } from '../../hooks/useWordPress'
+import { SkeletonTestimonials } from '../ui/Skeleton'
 
 export default function Testimonials() {
+  const { data: settings, isLoading } = useSiteSettings()
+  const testimonials = settings?.testimonials ?? []
+
+  if (isLoading && !settings) return <SkeletonTestimonials />
+
   return (
     <section className="section" style={{ background: '#FAFAFA', borderBottom: '1px solid #E8E8E8' }}>
       <div className="container">
@@ -11,16 +17,13 @@ export default function Testimonials() {
         </Reveal>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5px', background: '#E8E8E8' }} className="testimonials-grid">
-          {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.id} delay={i * 120}>
+          {testimonials.map((t, i) => (
+            <Reveal key={t.id ?? i} delay={i * 120}>
               <div style={{ background: '#fff', padding: '2.5rem', height: '100%' }}>
-                {/* Quote mark */}
                 <span style={{ fontFamily: 'Georgia, serif', fontSize: 56, color: '#E8E8E8', lineHeight: 1, display: 'block', marginBottom: '0.5rem' }}>"</span>
-
                 <p style={{ fontFamily: 'Archivo, sans-serif', fontWeight: 400, fontSize: 15, lineHeight: 1.7, color: '#333', marginBottom: '2rem' }}>
                   {t.text}
                 </p>
-
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, paddingTop: '1.5rem', borderTop: '1px solid #E8E8E8' }}>
                   <div style={{
                     width: 40, height: 40, background: '#0A0A0A', borderRadius: '50%',

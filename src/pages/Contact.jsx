@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, ArrowLeft, Check, Mail, Phone, MapPin, Send, Calendar } from 'lucide-react'
 import Reveal from '../components/ui/Reveal'
+import { useSiteSettings } from '../hooks/useWordPress'
 
 const STEPS = [
   { id: 1, label: 'Votre projet' },
@@ -30,6 +31,8 @@ function validate(step, form) {
 const init = { projectType: '', name: '', email: '', company: '', phone: '', message: '', budget: '', deadline: '' }
 
 export default function Contact() {
+  const { data: settings } = useSiteSettings()
+  const contactInfo = settings?.contact ?? {}
   const [step, setStep] = useState(1)
   const [form, setForm] = useState(init)
   const [errors, setErrors] = useState({})
@@ -46,9 +49,19 @@ export default function Contact() {
     const errs = validate(3, form)
     if (Object.keys(errs).length) { setErrors(errs); return }
     setSending(true)
-    await new Promise(r => setTimeout(r, 1400))
-    setSending(false)
-    setDone(true)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (!res.ok) throw new Error(`Erreur serveur ${res.status}`)
+      setDone(true)
+    } catch (err) {
+      setErrors({ submit: 'Une erreur est survenue. Veuillez réessayer ou nous contacter directement par email.' })
+    } finally {
+      setSending(false)
+    }
   }
 
   const inputStyle = (key) => ({
@@ -206,6 +219,11 @@ export default function Contact() {
                             )}
                           </AnimatePresence>
 
+                          {errors.submit && (
+                            <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 13, color: '#EF4444', marginTop: '1rem', padding: '12px 16px', background: '#FEF2F2', border: '1px solid #FECACA' }}>
+                              {errors.submit}
+                            </p>
+                          )}
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid #E8E8E8' }}>
                             {step > 1 ? (
                               <button type="button" onClick={back} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'Archivo,sans-serif', fontWeight: 600, fontSize: 13, color: '#888', background: 'none', border: '1px solid #E8E8E8', padding: '11px 20px', cursor: 'pointer', transition: 'all 0.15s' }}
@@ -272,7 +290,11 @@ export default function Contact() {
               <div style={{ position: 'sticky', top: 80 }}>
                 <div style={{ background: '#0A0A0A', padding: '2rem', marginBottom: '1rem' }}>
                   <p className="t-label" style={{ color: 'rgba(255,255,255,0.3)', marginBottom: '1.5rem' }}>Nos coordonnées</p>
-                  {[{ icon: Mail, v: 'hello@laforet-designer.fr' }, { icon: Phone, v: '+33 1 23 45 67 89' }, { icon: MapPin, v: 'Paris, France' }].map(({ icon: Icon, v }) => (
+                  {[
+                    { icon: Mail,  v: contactInfo.email   || 'hello@laforetdesigner.com' },
+                    { icon: Phone, v: contactInfo.phone   || '+33 1 23 45 67 89' },
+                    { icon: MapPin,v: contactInfo.address || 'Paris, France' },
+                  ].map(({ icon: Icon, v }) => (
                     <div key={v} style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: '1rem' }}>
                       <Icon size={15} color="rgba(255,255,255,0.3)" strokeWidth={1.5} />
                       <span style={{ fontFamily: 'Archivo,sans-serif', fontSize: 14, color: 'rgba(255,255,255,0.65)' }}>{v}</span>

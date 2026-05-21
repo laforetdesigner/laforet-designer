@@ -1,8 +1,22 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
+import { useSiteSettings } from '../../hooks/useWordPress'
+import { SkeletonHero } from '../ui/Skeleton'
 
 export default function Hero() {
+  const { data: settings, isLoading } = useSiteSettings()
+  const hero = settings?.hero
+
+  if (isLoading && !hero) return <SkeletonHero />
+
+  const label        = hero?.label         ?? 'Agence de design créatif — Paris'
+  const title1       = hero?.title1        ?? 'Laforet'
+  const title2       = hero?.title2        ?? 'Designer.'
+  const description  = hero?.description   ?? "Nous façonnons des identités visuelles, communications globales et expériences digitales pour les marques qui veulent s'imposer."
+  const ctaPrimary   = hero?.cta_primary   ?? 'Démarrer un projet'
+  const ctaSecondary = hero?.cta_secondary ?? 'Voir les réalisations'
+
   return (
     <section style={{ paddingTop: 64, background: '#fff', borderBottom: '1px solid #E8E8E8' }}>
       <div className="container" style={{ paddingTop: '6rem', paddingBottom: '6rem' }}>
@@ -12,7 +26,7 @@ export default function Hero() {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}
             style={{ marginBottom: '2rem' }}
           >
-            Agence de design créatif — Paris
+            {label}
           </motion.p>
 
           <motion.h1
@@ -22,8 +36,8 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             style={{ marginBottom: '2.5rem' }}
           >
-            Laforet<br />
-            <span style={{ color: '#1E40AF' }}>Designer.</span>
+            {title1}<br />
+            <span style={{ color: '#1E40AF' }}>{title2}</span>
           </motion.h1>
 
           <motion.p
@@ -37,7 +51,7 @@ export default function Hero() {
               maxWidth: 560, marginBottom: '3rem',
             }}
           >
-            Nous façonnons des identités visuelles, communications globales et expériences digitales pour les marques qui veulent s'imposer.
+            {description}
           </motion.p>
 
           <motion.div
@@ -47,10 +61,10 @@ export default function Hero() {
             style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}
           >
             <Link to="/contact" className="btn-primary">
-              Démarrer un projet <ArrowRight size={16} />
+              {ctaPrimary} <ArrowRight size={16} />
             </Link>
             <Link to="/portfolio" className="btn-outline">
-              Voir les réalisations
+              {ctaSecondary}
             </Link>
           </motion.div>
         </div>
