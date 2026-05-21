@@ -66,21 +66,25 @@ export default async function handler(req, res) {
     }
   }
 
-  // ── 2. Email via Resend ───────────────────────────────────────────────────────
-  if (process.env.RESEND_API_KEY) {
+  // ── 2. Email via Gmail (Nodemailer + App Password) ───────────────────────────
+  if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
     try {
-      const to = process.env.NOTIFICATION_EMAIL || 'laforet.designer@gmail.com'
-      const emailRes = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          Authorization:  `Bearer ${process.env.RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
+      const nodemailer = await import('nodemailer')
+      const transporter = nodemailer.default.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.GMAIL_USER,
+          pass: process.env.GMAIL_APP_PASSWORD,
         },
-        body: JSON.stringify({
-          from:    process.env.RESEND_FROM || 'Laforet Designer <onboarding@resend.dev>',
-          to:      [to],
-          subject: `🎯 Nouveau contact : ${name} — ${projectLabel}`,
-          html: `
+      })
+
+      const to = process.env.NOTIFICATION_EMAIL || process.env.GMAIL_USER
+
+      await transporter.sendMail({
+        from:    `"Laforet Designer — Site" <${process.env.GMAIL_USER}>`,
+        to,
+        subject: `🎯 Nouveau contact : ${name} — ${projectLabel}`,
+        html: `
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
@@ -140,14 +144,9 @@ export default async function handler(req, res) {
   </div>
 </body>
 </html>`,
-        }),
       })
-      if (!emailRes.ok) {
-        const body = await emailRes.text()
-        errs.push(`Resend: ${emailRes.status} — ${body}`)
-      }
     } catch (e) {
-      errs.push(`Resend exception: ${e.message}`)
+      errs.push(`Gmail exception: ${e.message}`)
     }
   }
 
