@@ -1,9 +1,33 @@
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 import Reveal from '../components/ui/Reveal'
 import CTABanner from '../components/sections/CTABanner'
 import { SERVICES, PORTFOLIO_ITEMS } from '../data/mockData'
+
+const SEO_META = {
+  branding: {
+    title: 'Branding & Identité Visuelle — Laforet Designer Paris',
+    description: 'Agence branding Paris. Logo, charte graphique, identité visuelle complète pour PME et startups ambitieuses. Devis gratuit sous 48h.',
+    keywords: 'branding paris, identité visuelle, création logo, charte graphique, agence branding',
+  },
+  'com-360': {
+    title: 'Communication 360 — Agence COM Paris | Laforet Designer',
+    description: 'Communication 360° à Paris : print, digital, réseaux sociaux, campagnes pub. Stratégie et production créative pour amplifier votre présence.',
+    keywords: 'communication 360 paris, agence communication, supports print, campagne publicitaire',
+  },
+  'solutions-digitales': {
+    title: 'Solutions Digitales & UI/UX Design Paris — Laforet Designer',
+    description: 'Design UI/UX, sites web, landing pages et design systems à Paris. Interfaces pensées pour convertir. Devis gratuit.',
+    keywords: 'UI UX design paris, création site web, landing page, design system, agence digitale',
+  },
+  coaching: {
+    title: 'Coaching Branding & Formation Design — Laforet Designer',
+    description: 'Coaching branding individuel et formation design Figma à Paris. Accompagnement personnalisé pour entrepreneurs et équipes créatives.',
+    keywords: 'coaching branding, formation figma, formation design, workshop communication',
+  },
+}
 
 export default function ServiceDetail() {
   const { slug } = useParams()
@@ -14,8 +38,19 @@ export default function ServiceDetail() {
   const related = PORTFOLIO_ITEMS.filter(p => p.category.toLowerCase().includes(service.slug) || service.projects?.includes(p.id?.toString()))
     .slice(0, 3)
 
+  const meta = SEO_META[service.slug] ?? {}
+
   return (
     <>
+      <Helmet>
+        <title>{meta.title ?? `${service.title} — Laforet Designer`}</title>
+        <meta name="description" content={meta.description ?? service.description} />
+        {meta.keywords && <meta name="keywords" content={meta.keywords} />}
+        <meta property="og:title" content={meta.title ?? service.title} />
+        <meta property="og:description" content={meta.description ?? service.description} />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href={`https://laforetdesigner.com/services/${service.slug}`} />
+      </Helmet>
       <div style={{ paddingTop: 72, background: '#0A0A0A' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '4rem 2rem 5rem', width: '100%' }}>
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} style={{ marginBottom: '2rem' }}>

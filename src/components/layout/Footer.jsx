@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useSiteSettings } from '../../hooks/useWordPress'
 import { SERVICES } from '../../data/mockData'
+import Logo from '../ui/Logo'
 
 const IconBehance = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -53,8 +54,8 @@ export default function Footer() {
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '3rem', paddingBottom: '4rem', borderBottom: '1px solid rgba(255,255,255,0.08)' }} className="footer-grid">
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1.5rem' }}>
-              <span style={{ width: 32, height: 32, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Archivo,sans-serif', fontWeight: 900, fontSize: 12, color: '#0A0A0A' }}>LD</span>
-              <span style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 800, fontSize: 15, letterSpacing: -0.3 }}>Laforet Designer</span>
+              <Logo size={26} color="#fff" />
+              <span style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 800, fontSize: 14, letterSpacing: -0.3 }}>Laforet Designer</span>
             </div>
             <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.4)', maxWidth: 260, marginBottom: '2rem' }}>
               {tagline}

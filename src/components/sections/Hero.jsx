@@ -18,57 +18,84 @@ export default function Hero() {
   const ctaSecondary = hero?.cta_secondary ?? 'Voir les réalisations'
 
   return (
-    <section style={{ paddingTop: 64, background: '#fff', borderBottom: '1px solid #E8E8E8' }}>
-      <div className="container" style={{ paddingTop: '6rem', paddingBottom: '6rem' }}>
-        <div style={{ maxWidth: 900 }}>
-          <motion.p
-            className="t-label"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}
-            style={{ marginBottom: '2rem' }}
-          >
-            {label}
-          </motion.p>
+    <section style={{ paddingTop: 60, background: '#F7F7F7' }}>
+      <div className="container" style={{ paddingTop: '5rem', paddingBottom: '5rem' }}>
+        {/* Label */}
+        <motion.p
+          className="t-label"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}
+          style={{ marginBottom: '2rem' }}
+        >
+          {label}
+        </motion.p>
 
-          <motion.h1
-            className="t-hero"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            style={{ marginBottom: '2.5rem' }}
-          >
-            {title1}<br />
-            <span style={{ color: '#1E40AF' }}>{title2}</span>
-          </motion.h1>
+        {/* Titre principal */}
+        <motion.h1
+          className="t-hero"
+          initial={{ opacity: 0, y: 32 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          style={{ marginBottom: '2rem', maxWidth: 900 }}
+        >
+          {title1}<br />
+          <span style={{ color: '#1E40AF' }}>{title2}</span>
+        </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.35 }}
-            style={{
-              fontFamily: 'Archivo, sans-serif', fontWeight: 400,
-              fontSize: 'clamp(17px, 2.2vw, 22px)',
-              lineHeight: 1.55, color: '#555',
-              maxWidth: 560, marginBottom: '3rem',
-            }}
-          >
+        {/* Ligne séparatrice */}
+        <motion.div
+          initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.16,1,0.3,1] }}
+          style={{ height: 1, background: '#E8E8E8', maxWidth: 560, marginBottom: '2rem', transformOrigin: 'left' }}
+        />
+
+        {/* Description + CTA en grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '3rem', alignItems: 'end', maxWidth: 860 }}
+          className="hero-bottom"
+        >
+          <p style={{
+            fontFamily: 'Archivo, sans-serif', fontWeight: 400,
+            fontSize: 'clamp(16px, 2vw, 20px)',
+            lineHeight: 1.6, color: '#555', maxWidth: 480,
+          }}>
             {description}
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}
-          >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flexShrink: 0 }}>
             <Link to="/contact" className="btn-primary">
-              {ctaPrimary} <ArrowRight size={16} />
+              {ctaPrimary} <ArrowRight size={14} />
             </Link>
             <Link to="/portfolio" className="btn-outline">
               {ctaSecondary}
             </Link>
-          </motion.div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Bande inférieure */}
+      <div style={{ borderTop: '1px solid #E8E8E8', background: '#fff' }}>
+        <div className="container" style={{ padding: '1.25rem 2rem', display: 'flex', gap: '2.5rem', flexWrap: 'wrap' }}>
+          {[
+            { n: '100+', l: 'Projets réalisés' },
+            { n: '5/5',  l: 'Satisfaction client' },
+            { n: '12 ans', l: "D'expérience" },
+          ].map(({ n, l }) => (
+            <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 900, fontSize: 18, color: '#0A0A0A', letterSpacing: -0.5 }}>{n}</span>
+              <span style={{ fontFamily: 'Archivo,sans-serif', fontSize: 12, color: '#999', borderLeft: '1px solid #E8E8E8', paddingLeft: 10 }}>{l}</span>
+            </div>
+          ))}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .hero-bottom { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+        }
+      `}</style>
     </section>
   )
 }

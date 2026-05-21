@@ -252,35 +252,20 @@ export default function Contact() {
                 {/* ──── TAB: CALENDAR ──── */}
                 {tab === 'calendar' && (
                   <motion.div key="calendar" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}>
-                    <div style={{ background: '#fff', border: '1px solid #E8E8E8', padding: '2rem', marginBottom: '1.5rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: '1.5rem' }}>
-                        <Calendar size={20} color="#0A0A0A" />
+                    <div style={{ background: '#fff', border: '1px solid #E8E8E8', overflow: 'hidden' }}>
+                      <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid #E8E8E8', display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <Calendar size={18} color="#0A0A0A" />
                         <div>
-                          <h3 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 800, fontSize: 18, color: '#0A0A0A', letterSpacing: -0.3 }}>Réserver un créneau</h3>
-                          <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 13, color: '#888' }}>Appel découverte ou visio 30 min — gratuit</p>
+                          <h3 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 800, fontSize: 16, color: '#0A0A0A', letterSpacing: -0.3 }}>Réserver un créneau</h3>
+                          <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 12, color: '#888' }}>Appel découverte 30 min — gratuit</p>
                         </div>
                       </div>
-
-                      {/* Cal.com embed — remplacer l'URL par votre lien Cal.com */}
-                      <div style={{ background: '#FAFAFA', border: '1px solid #E8E8E8', minHeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16, padding: '3rem' }}>
-                        <Calendar size={40} color="#E8E8E8" />
-                        <p style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 700, fontSize: 15, color: '#888', textAlign: 'center' }}>
-                          Calendrier Cal.com à intégrer
-                        </p>
-                        <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 13, color: '#AAA', textAlign: 'center', maxWidth: 320 }}>
-                          Créez un compte sur <strong>cal.com</strong>, copiez votre lien d'événement, puis remplacez l'URL dans <code style={{ background: '#F0F0F0', padding: '2px 6px', fontSize: 12 }}>src/pages/Contact.jsx</code>
-                        </p>
-                        <a href="https://cal.com" target="_blank" rel="noreferrer" className="btn-outline" style={{ fontSize: 13, padding: '10px 20px', marginTop: 8 }}>
-                          Créer un compte Cal.com →
-                        </a>
-                      </div>
-
-                      {/* Une fois votre lien Cal.com prêt, remplacez le bloc ci-dessus par : */}
-                      {/* <iframe
-                        src="https://cal.com/votre-nom/30min?embed=true"
-                        style={{ width: '100%', height: 600, border: 'none' }}
-                        title="Réserver un créneau"
-                      /> */}
+                      <iframe
+                        src="https://laforetdesigner.fillout.com/t/gW4c2BDVxPus?embed=true"
+                        style={{ width: '100%', height: 680, border: 'none', display: 'block' }}
+                        title="Réserver un créneau — Laforet Designer"
+                        loading="lazy"
+                      />
                     </div>
                   </motion.div>
                 )}
