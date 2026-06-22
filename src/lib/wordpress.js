@@ -17,8 +17,14 @@ async function wpFetch(endpoint, params = {}) {
 }
 
 // ─── Nettoyage HTML → texte brut ─────────────────────────────────────────────
+const _ta = typeof document !== 'undefined' ? document.createElement('textarea') : null
+function decodeEntities(str) {
+  if (!str || !_ta) return str ?? ''
+  _ta.innerHTML = str
+  return _ta.value
+}
 export function stripHtml(html = '') {
-  return html.replace(/<[^>]+>/g, '').replace(/&[^;]+;/g, ' ').trim()
+  return decodeEntities(html.replace(/<[^>]+>/g, '')).trim()
 }
 
 // ─── Image featured ──────────────────────────────────────────────────────────
@@ -52,13 +58,14 @@ export function toPortfolioItem(post) {
   // Tags → liste de prestations affichées
   const tags = (post._embedded?.['wp:term']?.[1] || []).map(t => t.name)
 
+  const title = decodeEntities(post.title?.rendered || '')
   return {
     id:          post.id,
-    title:       post.title?.rendered || '',
+    title,
     category:    mapWpCatToService(cat),
     tags,
     year:        new Date(post.date).getFullYear().toString(),
-    client:      post.title?.rendered || '',
+    client:      title,
     description: stripHtml(post.excerpt?.rendered),
     result:      '',
     image:       image  || 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1200&q=80',
@@ -81,7 +88,7 @@ export function toRessource(post) {
 
   return {
     id:       post.id,
-    title:    post.title?.rendered || '',
+    title:    decodeEntities(post.title?.rendered || ''),
     type:     typeTag || 'Article',
     category: tags.find(t => ['Branding','COM 360','Solutions Digitales'].includes(t)) || 'Branding',
     date:     post.date?.slice(0, 10),
