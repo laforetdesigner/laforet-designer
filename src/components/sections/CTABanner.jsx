@@ -16,9 +16,10 @@ export default function CTABanner({ dark = true }) {
               Démarrer un projet
             </p>
             <h2 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 900, fontSize: 'clamp(36px, 5.5vw, 72px)', lineHeight: 0.95, letterSpacing: -2.5, color: fg, marginBottom: '2rem' }}>
-              Vous avez un projet ?<br />Parlons-en.
+              <span style={{ display: 'block', whiteSpace: 'nowrap' }}>Vous avez un projet ?</span>
+              <span style={{ display: 'block' }}>Parlons-en.</span>
             </h2>
-            <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 17, color: dark ? 'rgba(255,255,255,0.45)' : '#666', marginBottom: '2.5rem', maxWidth: 440, lineHeight: 1.6 }}>
+            <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 17, color: dark ? 'rgba(255,255,255,0.45)' : '#666', marginBottom: '2.5rem', lineHeight: 1.6, whiteSpace: 'nowrap' }}>
               Devis gratuit et personnalisé sous 48h. Premier échange offert.
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
