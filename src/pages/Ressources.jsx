@@ -114,16 +114,27 @@ export default function Ressources() {
             </div>
           </Reveal>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5px', background: '#E8E8E8' }} className="coaching-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5px', background: '#E8E8E8' }} className="coaching-grid">
             {COACHING.map((c, i) => (
               <Reveal key={i} delay={i * 100}>
                 <div style={{ background: i === 1 ? '#0A0A0A' : '#fff', padding: '2.5rem', height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <div style={{ flex: 1 }}>
                     <p className="t-label" style={{ color: i === 1 ? 'rgba(255,255,255,0.3)' : '#888', marginBottom: '1rem' }}>{c.duration}</p>
-                    <h3 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 900, fontSize: 20, color: i === 1 ? '#fff' : '#0A0A0A', letterSpacing: -0.4, marginBottom: '1rem', lineHeight: 1.2 }}>{c.title}</h3>
+                    <h3 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 900, fontSize: 22, color: i === 1 ? '#fff' : '#0A0A0A', letterSpacing: -0.4, marginBottom: '1rem', lineHeight: 1.2 }}>{c.title}</h3>
                     <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 14, color: i === 1 ? 'rgba(255,255,255,0.45)' : '#666', lineHeight: 1.6, marginBottom: '1.5rem' }}>{c.description}</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                      {c.tags.map(tag => (
+                        <span key={tag} style={{
+                          fontFamily: 'Archivo,sans-serif', fontSize: 11, fontWeight: 600,
+                          padding: '3px 10px',
+                          background: i === 1 ? 'rgba(255,255,255,0.08)' : '#F5F5F5',
+                          color: i === 1 ? 'rgba(255,255,255,0.5)' : '#555',
+                          letterSpacing: '0.03em',
+                        }}>{tag}</span>
+                      ))}
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '1.5rem', borderTop: `1px solid ${i === 1 ? 'rgba(255,255,255,0.1)' : '#E8E8E8'}` }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '1.5rem', marginTop: '1.5rem', borderTop: `1px solid ${i === 1 ? 'rgba(255,255,255,0.1)' : '#E8E8E8'}` }}>
                     <span style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 900, fontSize: 22, color: i === 1 ? '#fff' : '#0A0A0A', letterSpacing: -0.5 }}>{c.price}</span>
                     <a href="/contact" style={{
                       display: 'inline-flex', alignItems: 'center', gap: 6,
@@ -135,7 +146,7 @@ export default function Ressources() {
                       onMouseEnter={e => { e.currentTarget.style.background = '#1E40AF'; e.currentTarget.style.borderColor = '#1E40AF'; e.currentTarget.style.color = '#fff' }}
                       onMouseLeave={e => { e.currentTarget.style.background = ''; e.currentTarget.style.borderColor = i === 1 ? 'rgba(255,255,255,0.3)' : '#0A0A0A'; e.currentTarget.style.color = i === 1 ? '#fff' : '#0A0A0A' }}
                     >
-                      Réserver <ArrowRight size={12} />
+                      {c.cta} <ArrowRight size={12} />
                     </a>
                   </div>
                 </div>

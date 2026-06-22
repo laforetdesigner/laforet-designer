@@ -286,7 +286,20 @@ export const RESSOURCE_TYPES = ['Tous', 'Étude de cas', 'Article', 'Actualité'
 
 // ─── COACHING ─────────────────────────────────────────────────────────────────
 export const COACHING = [
-  { title: 'Coaching Branding Individuel', duration: '4 séances × 1h', price: '480 €', description: 'Accompagnement personnalisé pour construire ou clarifier votre identité de marque. Idéal pour entrepreneurs et indépendants.' },
-  { title: 'Formation Design Figma', duration: '2 jours (14h)', price: '890 €', description: 'Maîtrisez Figma de A à Z : composants, auto-layout, prototypage, handoff. En présentiel ou distanciel.' },
-  { title: 'Workshop COM 360 Équipe', duration: '1 jour (7h)', price: '1 200 €', description: 'Workshop collectif pour aligner votre équipe sur la stratégie de communication et les bonnes pratiques.' },
+  {
+    title: 'Accompagnement sur mesure',
+    duration: 'Séances individuelles',
+    price: '60 €/h',
+    cta: 'Réserver une séance',
+    description: 'Accompagnement personnalisé adapté à vos besoins : branding, communication, stratégie digitale. Disponible en présentiel ou distanciel, sans engagement.',
+    tags: ['Branding', 'COM 360', 'Digital', 'Stratégie'],
+  },
+  {
+    title: 'Création de marque de A à Z',
+    duration: 'Module complet — Écoles & Organismes de formation',
+    price: 'À partir de 5 000 €',
+    cta: 'Demander un devis',
+    description: 'Programme clé en main pour écoles et organismes de formation : de l\'idée aux premières ventes. Supports pédagogiques inclus, accompagnement de projet et suivi personnalisé des apprenants.',
+    tags: ['Écoles', 'Organismes de formation', 'Marque complète', 'Supports inclus'],
+  },
 ]
