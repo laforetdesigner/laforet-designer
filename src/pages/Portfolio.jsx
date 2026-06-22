@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
-import ProjectModal from '../components/ui/ProjectModal'
 import Reveal from '../components/ui/Reveal'
 import CTABanner from '../components/sections/CTABanner'
 import { usePortfolio } from '../hooks/useWordPress'
@@ -10,9 +9,8 @@ import { usePortfolio } from '../hooks/useWordPress'
 const CATS = ['Tous', 'Branding', 'COM 360', 'Solutions Digitales']
 
 export default function Portfolio() {
-  const [active, setActive]   = useState('Tous')
-  const [selected, setSelected] = useState(null)
-  const [search, setSearch]   = useState('')
+  const [active, setActive] = useState('Tous')
+  const [search, setSearch] = useState('')
   const { data: items = [], isLoading } = usePortfolio()
 
   const filtered = items.filter(p => {
@@ -76,8 +74,9 @@ export default function Portfolio() {
           <motion.div layout style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5px', background: '#E8E8E8' }} className="portfolio-full-grid">
             <AnimatePresence>
               {filtered.map(item => (
-                <motion.div key={item.id} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}
-                  onClick={() => setSelected(item)} style={{ background: '#fff', cursor: 'pointer' }}>
+                <motion.a key={item.id} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}
+                  href={item.link} target="_blank" rel="noreferrer"
+                  style={{ display: 'block', textDecoration: 'none', background: '#fff' }}>
                   <div style={{ overflow: 'hidden', aspectRatio: '4/3' }}>
                     <img src={item.thumb} alt={item.title} loading="lazy"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'grayscale(15%)', transition: 'transform 0.5s, filter 0.4s' }}
@@ -92,7 +91,7 @@ export default function Portfolio() {
                     </div>
                     <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 12, color: '#888' }}>{item.category} — {item.client}</p>
                   </div>
-                </motion.div>
+                </motion.a>
               ))}
             </AnimatePresence>
           </motion.div>
@@ -106,7 +105,6 @@ export default function Portfolio() {
       </section>
 
       <CTABanner />
-      <ProjectModal project={selected} onClose={() => setSelected(null)} />
 
       <style>{`
         @media (max-width: 820px) { .portfolio-full-grid { grid-template-columns: 1fr 1fr !important; } }
