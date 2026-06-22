@@ -42,11 +42,8 @@ export default function Footer() {
     key, href: social[key] || '#', label: key.charAt(0).toUpperCase() + key.slice(1), Icon: ICON_MAP[key],
   }))
 
-  const contactLinks = [
-    { label: contact.email   || 'hello@laforetdesigner.com', to: '/contact' },
-    { label: contact.phone   || '+33 1 23 45 67 89',         to: '/contact' },
-    { label: contact.address || 'Paris, France',             to: '/contact' },
-  ]
+  const MAPS_URL = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3643.198431581833!2d6.026965234353414!3d46.24743898600255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c632c21d13bcd%3A0x6b6c19005ff92917!2sBranding%20%26%20Com%20360%C2%B0%20%7C%20Laforet%20Designer!5e1!3m2!1sfr!2sfr!4v1782115451653!5m2!1sfr!2sfr'
+  const GMAPS_LINK = 'https://www.google.com/maps/place/Branding+%26+Com+360%C2%B0+%7C+Laforet+Designer/@46.2474390,6.0269652,17z'
 
   return (
     <footer style={{ background: '#0A0A0A', color: '#fff', borderTop: '1px solid #E8E8E8' }}>
@@ -74,7 +71,6 @@ export default function Footer() {
           {[
             { title: 'Services', links: SERVICES.map(s => ({ label: s.nav, to: `/services/${s.slug}` })) },
             { title: 'Agence',   links: [{ label: 'Portfolio', to: '/portfolio' }, { label: 'Ressources', to: '/ressources' }, { label: 'Contact', to: '/contact' }] },
-            { title: 'Contact',  links: contactLinks },
           ].map(({ title, links }) => (
             <div key={title}>
               <p className="t-label" style={{ color: 'rgba(255,255,255,0.25)', marginBottom: '1.25rem' }}>{title}</p>
@@ -90,6 +86,41 @@ export default function Footer() {
               </ul>
             </div>
           ))}
+
+          {/* Colonne Contact : carte + badge avis */}
+          <div>
+            <p className="t-label" style={{ color: 'rgba(255,255,255,0.25)', marginBottom: '1.25rem' }}>Nous trouver</p>
+            <a href={GMAPS_LINK} target="_blank" rel="noreferrer" style={{ display: 'block', marginBottom: '0.75rem', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <iframe
+                src={MAPS_URL}
+                width="100%" height="140"
+                style={{ border: 0, display: 'block', filter: 'grayscale(1) invert(0.88) contrast(0.9)' }}
+                allowFullScreen loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Laforet Designer — Carte"
+              />
+            </a>
+            <a href={GMAPS_LINK} target="_blank" rel="noreferrer"
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', border: '1px solid rgba(255,255,255,0.08)', textDecoration: 'none', transition: 'border-color 0.2s' }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'}
+              onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#4285F4"/>
+                <circle cx="12" cy="9" r="2.5" fill="#fff"/>
+              </svg>
+              <div>
+                <div style={{ display: 'flex', gap: 2, marginBottom: 2 }}>
+                  {[1,2,3,4,5].map(i => (
+                    <svg key={i} width="11" height="11" viewBox="0 0 24 24" fill="#FBBC04">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  ))}
+                </div>
+                <span style={{ fontFamily: 'Archivo,sans-serif', fontSize: 11, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.02em' }}>Avis Google</span>
+              </div>
+            </a>
+          </div>
         </div>
 
         <div style={{ padding: '1.5rem 0', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem' }}>
