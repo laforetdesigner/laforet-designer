@@ -73,6 +73,20 @@ export default function ProjectModal({ project, onClose }) {
                   <span key={tag} style={{ fontFamily: 'Archivo, sans-serif', fontSize: 13, fontWeight: 500, background: '#F5F5F5', padding: '6px 14px', borderRadius: 6, color: '#0A0A0A' }}>{tag}</span>
                 ))}
               </div>
+
+              {project.link && (
+                <a href={project.link} target="_blank" rel="noreferrer" style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  fontFamily: 'Archivo, sans-serif', fontWeight: 700, fontSize: 13,
+                  background: '#0A0A0A', color: '#fff', textDecoration: 'none',
+                  padding: '12px 24px', border: '1.5px solid #0A0A0A', transition: 'background 0.2s',
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.background = '#1E40AF'; e.currentTarget.style.borderColor = '#1E40AF' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = '#0A0A0A'; e.currentTarget.style.borderColor = '#0A0A0A' }}
+                >
+                  Voir le projet <ArrowUpRight size={14} />
+                </a>
+              )}
             </div>
           </motion.div>
         </>
