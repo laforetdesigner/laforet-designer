@@ -125,10 +125,12 @@ export default function ServicePage() {
           <Reveal>
             <p className="t-label" style={{ marginBottom: '1rem' }}>Tarifs</p>
             <h2 className="t-heading" style={{ marginBottom: '0.5rem' }}>Nos offres {service.title}</h2>
-            <p className="t-body" style={{ marginBottom: '3.5rem', maxWidth: 480 }}>Trois niveaux clairs pour s'adapter à votre projet et à votre budget.</p>
+            <p className="t-body" style={{ marginBottom: '3.5rem', maxWidth: 480 }}>
+              {service.pricingSubtitle ?? 'Trois niveaux clairs pour s\'adapter à votre projet et à votre budget.'}
+            </p>
           </Reveal>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5px', background: '#E8E8E8' }} className="pricing-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${service.pricing.length}, 1fr)`, gap: '1.5px', background: '#E8E8E8', maxWidth: service.pricing.length === 2 ? 900 : 'none' }} className="pricing-grid">
             {service.pricing.map((plan, i) => (
               <Reveal key={plan.name} delay={i * 100}>
                 <div style={{
@@ -151,15 +153,27 @@ export default function ServicePage() {
                     <p className="t-label" style={{ color: plan.highlight ? 'rgba(255,255,255,0.3)' : '#888', marginBottom: '0.75rem' }}>
                       {plan.name}
                     </p>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: '0.75rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: '0.5rem' }}>
                       <span style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 900, fontSize: 40, letterSpacing: -1.5, color: plan.highlight ? '#fff' : '#0A0A0A', lineHeight: 1 }}>
                         {plan.price}
                       </span>
                       <span style={{ fontFamily: 'Archivo,sans-serif', fontSize: 13, color: plan.highlight ? 'rgba(255,255,255,0.3)' : '#888' }}>/ {plan.frequency}</span>
                     </div>
+                    {plan.deadline && (
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: '0.75rem', padding: '3px 10px', background: plan.highlight ? 'rgba(255,255,255,0.08)' : '#F0F0F0' }}>
+                        <span style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 700, fontSize: 11, color: plan.highlight ? 'rgba(255,255,255,0.5)' : '#555', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                          Délai : {plan.deadline}
+                        </span>
+                      </div>
+                    )}
                     <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 13, color: plan.highlight ? 'rgba(255,255,255,0.45)' : '#666', lineHeight: 1.5 }}>
                       {plan.description}
                     </p>
+                    {plan.profile && (
+                      <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 12, color: plan.highlight ? 'rgba(255,255,255,0.3)' : '#999', lineHeight: 1.5, marginTop: '0.5rem', fontStyle: 'italic' }}>
+                        Pour : {plan.profile}
+                      </p>
+                    )}
                   </div>
 
                   <hr style={{ border: 'none', borderTop: `1px solid ${plan.highlight ? 'rgba(255,255,255,0.1)' : '#E8E8E8'}`, marginBottom: '1.5rem' }} />
@@ -199,7 +213,7 @@ export default function ServicePage() {
           </div>
 
           <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 12, color: '#AAA', textAlign: 'center', marginTop: '1.5rem' }}>
-            Tous les prix sont HT. TVA en sus selon régime. Devis personnalisé sur demande.
+            Production des supports de communication non inclus.
           </p>
         </div>
       </section>
