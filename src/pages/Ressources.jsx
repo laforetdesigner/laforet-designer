@@ -18,8 +18,9 @@ const TYPE_COLORS = {
 
 export default function Ressources() {
   const [active, setActive] = useState('Tous')
-  const { data: ressources = [], isLoading } = useRessources()
+  const { data: ressources = [], isLoading, isPlaceholderData } = useRessources()
 
+  const loading = isLoading || isPlaceholderData
   const filtered = active === 'Tous' ? ressources : ressources.filter(r => r.type === active)
 
   return (
@@ -65,7 +66,22 @@ export default function Ressources() {
             ))}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5px', background: '#E8E8E8' }} className="resources-grid">
+          {loading && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5px', background: '#E8E8E8' }} className="resources-grid">
+              {[1,2,3,4,5,6].map(i => (
+                <div key={i} style={{ background: '#fff' }}>
+                  <div style={{ aspectRatio: '16/9', background: '#F0F0F0' }} />
+                  <div style={{ padding: '1.5rem', borderTop: '1px solid #E8E8E8' }}>
+                    <div style={{ height: 18, width: '40%', background: '#F0F0F0', marginBottom: '0.75rem' }} />
+                    <div style={{ height: 16, width: '85%', background: '#F0F0F0', marginBottom: '0.4rem' }} />
+                    <div style={{ height: 16, width: '60%', background: '#F0F0F0' }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {!loading && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5px', background: '#E8E8E8' }} className="resources-grid">
             {filtered.map((r, i) => (
               <Reveal key={r.id} delay={i * 80}>
                 <Link to={`/ressources/${r.slug}`} style={{ display: 'block', textDecoration: 'none', background: '#fff', transition: 'background 0.15s' }}
@@ -98,7 +114,7 @@ export default function Ressources() {
                 </Link>
               </Reveal>
             ))}
-          </div>
+          </div>}
         </div>
       </section>
 
