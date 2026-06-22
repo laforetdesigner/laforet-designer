@@ -275,8 +275,7 @@ export default function ArticlePage({ backPath = '/ressources', backLabel = 'Res
               <p style={{ fontFamily: 'Archivo, sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.4)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
                 Discutons de votre projet sans engagement. Je vous réponds sous 24h.
               </p>
-              {/* Fillout scheduler embed — remplacez l'URL par votre lien Fillout Scheduler */}
-              <a href="/contact" style={{
+              <a href="https://laforetdesigner.fillout.com/t/gW4c2BDVxPus" target="_blank" rel="noreferrer" style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                 fontFamily: 'Archivo, sans-serif', fontWeight: 700, fontSize: 13,
                 color: '#fff', textDecoration: 'none',

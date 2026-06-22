@@ -82,19 +82,40 @@ export default function Contact() {
             <Reveal delay={100}>
               <div style={{ position: 'sticky', top: 80, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
 
-                {/* Coordonnées */}
-                <div style={{ background: '#0A0A0A', padding: '2rem' }}>
-                  <p className="t-label" style={{ color: 'rgba(255,255,255,0.3)', marginBottom: '1.5rem' }}>
-                    Nos coordonnées
-                  </p>
-                  {infos.map(({ icon: Icon, value }) => (
-                    <div key={value} style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: '1rem' }}>
-                      <Icon size={14} color="rgba(255,255,255,0.3)" strokeWidth={1.5} />
-                      <span style={{ fontFamily: 'Archivo,sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>
-                        {value}
-                      </span>
+                {/* Carte Google Maps + badge avis */}
+                <div style={{ background: '#0A0A0A', overflow: 'hidden' }}>
+                  <a href="https://www.google.com/maps/place/Branding+%26+Com+360%C2%B0+%7C+Laforet+Designer/@46.2474390,6.0269652,17z"
+                    target="_blank" rel="noreferrer" style={{ display: 'block' }}>
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3643.198431581833!2d6.026965234353414!3d46.24743898600255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c632c21d13bcd%3A0x6b6c19005ff92917!2sBranding%20%26%20Com%20360%C2%B0%20%7C%20Laforet%20Designer!5e1!3m2!1sfr!2sfr!4v1782115451653!5m2!1sfr!2sfr"
+                      width="100%" height="180"
+                      style={{ border: 0, display: 'block', filter: 'grayscale(1) invert(0.88) contrast(0.9)' }}
+                      allowFullScreen loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Laforet Designer — Carte"
+                    />
+                  </a>
+                  <a href="https://www.google.com/maps/place/Branding+%26+Com+360%C2%B0+%7C+Laforet+Designer/@46.2474390,6.0269652,17z"
+                    target="_blank" rel="noreferrer"
+                    style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '1rem 1.25rem', textDecoration: 'none', borderTop: '1px solid rgba(255,255,255,0.07)', transition: 'background 0.15s' }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}
+                    onMouseLeave={e => e.currentTarget.style.background = ''}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#4285F4"/>
+                      <circle cx="12" cy="9" r="2.5" fill="#fff"/>
+                    </svg>
+                    <div>
+                      <div style={{ display: 'flex', gap: 2, marginBottom: 2 }}>
+                        {[1,2,3,4,5].map(i => (
+                          <svg key={i} width="11" height="11" viewBox="0 0 24 24" fill="#FBBC04">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                          </svg>
+                        ))}
+                      </div>
+                      <span style={{ fontFamily: 'Archivo,sans-serif', fontSize: 11, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.04em' }}>Avis Google · Voir sur Maps</span>
                     </div>
-                  ))}
+                  </a>
                 </div>
 
                 {/* Garanties */}
@@ -103,8 +124,10 @@ export default function Contact() {
                   {[
                     'Devis sous 48h garanti',
                     'Note 5/5 sur 100+ projets',
+                    'Retours jusqu\'à satisfaction',
+                    'Accompagnement humain',
+                    'Disponibilité et flexibilité',
                     'Expertise multi-secteurs',
-                    'Tarifs transparents',
                   ].map(v => (
                     <div key={v} style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: '0.6rem' }}>
                       <Check size={12} color="#1E40AF" strokeWidth={3} />
