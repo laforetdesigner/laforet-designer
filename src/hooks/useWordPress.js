@@ -4,7 +4,7 @@
  */
 import { useQuery } from '@tanstack/react-query'
 import { fetchPortfolio, fetchRessources, fetchSiteSettings } from '../lib/wordpress'
-import { PORTFOLIO_ITEMS, RESSOURCES, STATS, TESTIMONIALS, CLIENT_LOGOS } from '../data/mockData'
+import { PORTFOLIO_ITEMS, RESSOURCES, STATS, TESTIMONIALS, CLIENT_LOGOS, SERVICES } from '../data/mockData'
 
 /** Portfolio items depuis WP, fallback mock */
 export function usePortfolio() {
@@ -55,6 +55,15 @@ export function useSiteSettings() {
       },
       social: { behance: '#', linkedin: '#', youtube: '#' },
       footer: { tagline: 'Agence de design créatif. Branding, communication 360 et solutions digitales pour les marques ambitieuses.' },
+      services: Object.fromEntries(
+        SERVICES.map(s => [s.slug, {
+          tagline:     s.tagline,
+          description: s.description,
+          prestations: s.prestations,
+          image:       '',
+        }])
+      ),
+      media: { hero_image: '', og_image: '' },
     },
   })
 }

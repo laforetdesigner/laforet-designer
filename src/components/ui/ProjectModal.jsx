@@ -4,6 +4,7 @@ import { X, ArrowUpRight } from 'lucide-react'
 
 export default function ProjectModal({ project, onClose }) {
   useEffect(() => {
+    if (!project) return
     const onKey = (e) => { if (e.key === 'Escape') onClose() }
     document.addEventListener('keydown', onKey)
     document.body.style.overflow = 'hidden'
@@ -11,7 +12,7 @@ export default function ProjectModal({ project, onClose }) {
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = ''
     }
-  }, [onClose])
+  }, [project, onClose])
 
   return (
     <AnimatePresence>

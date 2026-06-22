@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Clock } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 import Reveal from '../components/ui/Reveal'
 import CTABanner from '../components/sections/CTABanner'
 import { RESSOURCE_TYPES, COACHING } from '../data/mockData'
@@ -22,6 +23,15 @@ export default function Ressources() {
 
   return (
     <>
+      <Helmet>
+        <title>Ressources Design & Branding — Articles, Guides, Formations | Laforet Designer</title>
+        <meta name="description" content="Articles, études de cas, tutoriels et formations sur le branding, la communication 360 et le design digital. Inspirez-vous des meilleurs projets de l'agence." />
+        <meta name="keywords" content="ressources design, articles branding, études de cas, formation figma, tutoriels design, tendances branding" />
+        <meta property="og:title" content="Ressources Design & Branding | Laforet Designer" />
+        <meta property="og:description" content="Articles, études de cas et formations pour les marques créatives." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://laforetdesigner.com/ressources" />
+      </Helmet>
       <div style={{ paddingTop: 64, background: '#0A0A0A', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="container" style={{ padding: '4rem 2rem 5rem' }}>
           <motion.p className="t-label" initial={{ opacity: 0 }} animate={{ opacity: 1 }}

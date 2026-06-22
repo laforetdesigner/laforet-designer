@@ -75,21 +75,6 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Bande inférieure */}
-      <div style={{ borderTop: '1px solid #E8E8E8', background: '#fff' }}>
-        <div className="container" style={{ padding: '1.25rem 2rem', display: 'flex', gap: '2.5rem', flexWrap: 'wrap' }}>
-          {[
-            { n: '100+', l: 'Projets réalisés' },
-            { n: '5/5',  l: 'Satisfaction client' },
-            { n: '12 ans', l: "D'expérience" },
-          ].map(({ n, l }) => (
-            <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 900, fontSize: 18, color: '#0A0A0A', letterSpacing: -0.5 }}>{n}</span>
-              <span style={{ fontFamily: 'Archivo,sans-serif', fontSize: 12, color: '#999', borderLeft: '1px solid #E8E8E8', paddingLeft: 10 }}>{l}</span>
-            </div>
-          ))}
-        </div>
-      </div>
 
       <style>{`
         @media (max-width: 640px) {

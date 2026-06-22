@@ -1,19 +1,70 @@
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check, X } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 import Reveal from '../components/ui/Reveal'
 import CTABanner from '../components/sections/CTABanner'
 import { SERVICES } from '../data/mockData'
+import { useSiteSettings } from '../hooks/useWordPress'
+
+const SEO_META = {
+  branding: {
+    title:       'Branding & Identité Visuelle — Agence Branding Paris | Laforet Designer',
+    description: 'Agence branding Paris. Création de logo, identité visuelle complète et charte graphique pour PME et startups ambitieuses. Devis gratuit sous 48h.',
+    keywords:    'branding paris, identité visuelle, création logo, charte graphique, agence branding, brand book',
+  },
+  'com-360': {
+    title:       'Communication 360° — Agence COM Paris | Laforet Designer',
+    description: 'Communication 360° à Paris : print, digital, réseaux sociaux, campagnes publicitaires. Stratégie et production créative pour amplifier votre présence.',
+    keywords:    'communication 360 paris, agence communication, supports print, campagne publicitaire, direction artistique',
+  },
+  'solutions-digitales': {
+    title:       'Solutions Digitales & UI/UX Design Paris — Laforet Designer',
+    description: 'Design UI/UX, sites web, landing pages et design systems à Paris. Interfaces pensées pour convertir. Maquettes Figma + handoff développeur. Devis gratuit.',
+    keywords:    'UI UX design paris, création site web, landing page, design system, agence digitale, figma',
+  },
+  coaching: {
+    title:       'Coaching Branding & Formation Design — Laforet Designer',
+    description: 'Coaching branding individuel et formation design Figma à Paris. Accompagnement personnalisé pour entrepreneurs et équipes créatives.',
+    keywords:    'coaching branding, formation figma, formation design, workshop communication, mentoring créatif',
+  },
+}
 
 export default function ServicePage() {
   const { slug } = useParams()
-  const service = SERVICES.find(s => s.slug === slug)
-  if (!service) return <Navigate to="/services" replace />
+  const { data: settings } = useSiteSettings()
+
+  const mockService = SERVICES.find(s => s.slug === slug)
+  if (!mockService) return <Navigate to="/services" replace />
+
+  // Merge WP data over mockData
+  const wpSvc = settings?.services?.[slug] ?? {}
+  const service = {
+    ...mockService,
+    tagline:     wpSvc.tagline      || mockService.tagline,
+    description: wpSvc.description  || mockService.description,
+    prestations: (wpSvc.prestations?.length ? wpSvc.prestations : null) ?? mockService.prestations ?? [],
+    headerImage: wpSvc.image        || null,
+  }
 
   const others = SERVICES.filter(s => s.slug !== slug)
+  const meta   = SEO_META[slug] ?? {}
 
   return (
     <>
+      <Helmet>
+        <title>{meta.title ?? `${service.title} — Laforet Designer`}</title>
+        <meta name="description" content={meta.description ?? service.description} />
+        {meta.keywords && <meta name="keywords" content={meta.keywords} />}
+        <meta property="og:title"       content={meta.title ?? service.title} />
+        <meta property="og:description" content={meta.description ?? service.description} />
+        <meta property="og:type"        content="website" />
+        {(service.headerImage || settings?.media?.og_image) && (
+          <meta property="og:image" content={service.headerImage || settings.media.og_image} />
+        )}
+        <link rel="canonical" href={`https://laforetdesigner.com/services/${slug}`} />
+      </Helmet>
+
       {/* ── Hero ── */}
       <div style={{ paddingTop: 64, background: '#0A0A0A' }}>
         <div className="container" style={{ padding: '4rem 2rem 5rem' }}>
@@ -37,6 +88,14 @@ export default function ServicePage() {
         </div>
       </div>
 
+      {/* Image d'en-tête (optionnel depuis WP) */}
+      {service.headerImage && (
+        <div style={{ height: 300, overflow: 'hidden', background: '#111' }}>
+          <img src={service.headerImage} alt={service.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
+        </div>
+      )}
+
       {/* ── Prestations incluses ── */}
       <section className="section" style={{ background: '#fff', borderBottom: '1px solid #E8E8E8' }}>
         <div className="container">
@@ -47,7 +106,7 @@ export default function ServicePage() {
                 <h2 className="t-heading" style={{ marginBottom: '1rem' }}>Nos prestations {service.title}</h2>
                 <p className="t-body">{service.tagline}</p>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem' }} className="prestations-items">
                 {service.prestations.map((p, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '0.75rem 1rem', border: '1px solid #E8E8E8', background: '#FAFAFA' }}>
                     <span style={{ width: 6, height: 6, background: '#0A0A0A', borderRadius: '50%', flexShrink: 0 }} />
@@ -204,8 +263,11 @@ export default function ServicePage() {
       <style>{`
         @media (max-width: 900px) {
           .prestations-grid { grid-template-columns: 1fr !important; }
-          .pricing-grid { grid-template-columns: 1fr !important; }
-          .process-grid { grid-template-columns: 1fr 1fr !important; }
+          .pricing-grid     { grid-template-columns: 1fr !important; }
+          .process-grid     { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 560px) {
+          .prestations-items { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 480px) {
           .process-grid { grid-template-columns: 1fr !important; }

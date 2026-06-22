@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async'
 import Reveal from '../components/ui/Reveal'
 import CTABanner from '../components/sections/CTABanner'
 import { SERVICES, PORTFOLIO_ITEMS } from '../data/mockData'
+import { useSiteSettings } from '../hooks/useWordPress'
 
 const SEO_META = {
   branding: {
@@ -31,9 +32,23 @@ const SEO_META = {
 
 export default function ServiceDetail() {
   const { slug } = useParams()
-  const service = SERVICES.find(s => s.slug === slug)
+  const { data: settings } = useSiteSettings()
+  const mockService = SERVICES.find(s => s.slug === slug)
 
-  if (!service) return <Navigate to="/services" replace />
+  if (!mockService) return <Navigate to="/services" replace />
+
+  // Merge WP data over mockData fallback
+  const wpSvc = settings?.services?.[slug] ?? {}
+  const service = {
+    ...mockService,
+    tagline:     wpSvc.tagline     || mockService.tagline,
+    description: wpSvc.description || mockService.description,
+    // prestations from WP (one per line) or mockData; exposed as `features` for template
+    features:    (wpSvc.prestations?.length ? wpSvc.prestations : null)
+                 ?? mockService.prestations
+                 ?? [],
+    headerImage: wpSvc.image || null,
+  }
 
   const related = PORTFOLIO_ITEMS.filter(p => p.category.toLowerCase().includes(service.slug) || service.projects?.includes(p.id?.toString()))
     .slice(0, 3)
@@ -49,6 +64,9 @@ export default function ServiceDetail() {
         <meta property="og:title" content={meta.title ?? service.title} />
         <meta property="og:description" content={meta.description ?? service.description} />
         <meta property="og:type" content="website" />
+        {(service.headerImage || settings?.media?.og_image) && (
+          <meta property="og:image" content={service.headerImage || settings.media.og_image} />
+        )}
         <link rel="canonical" href={`https://laforetdesigner.com/services/${service.slug}`} />
       </Helmet>
       <div style={{ paddingTop: 72, background: '#0A0A0A' }}>
@@ -86,6 +104,14 @@ export default function ServiceDetail() {
           </div>
         </div>
       </div>
+
+      {/* Image d'en-tête (optionnel depuis WP) */}
+      {service.headerImage && (
+        <div style={{ height: 320, overflow: 'hidden', background: '#111' }}>
+          <img src={service.headerImage} alt={service.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
+        </div>
+      )}
 
       <div style={{ background: '#F5F5F5', padding: '6rem 2rem' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>

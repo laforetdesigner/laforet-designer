@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 import ProjectModal from '../components/ui/ProjectModal'
 import Reveal from '../components/ui/Reveal'
 import CTABanner from '../components/sections/CTABanner'
@@ -22,6 +23,15 @@ export default function Portfolio() {
 
   return (
     <>
+      <Helmet>
+        <title>Portfolio — Réalisations Design | Laforet Designer Paris</title>
+        <meta name="description" content="Découvrez nos réalisations en branding, communication 360 et solutions digitales. 100+ projets pour des marques ambitieuses à Paris et en France." />
+        <meta name="keywords" content="portfolio design paris, réalisations branding, projets identité visuelle, agence design créatif" />
+        <meta property="og:title" content="Portfolio — Réalisations Design | Laforet Designer" />
+        <meta property="og:description" content="100+ projets en branding, communication 360 et solutions digitales." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://laforetdesigner.com/portfolio" />
+      </Helmet>
       <div style={{ paddingTop: 64, background: '#0A0A0A', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="container" style={{ padding: '4rem 2rem 5rem' }}>
           <motion.p className="t-label" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
@@ -49,7 +59,7 @@ export default function Portfolio() {
                   color: active === cat ? '#fff' : '#555',
                   cursor: 'pointer', transition: 'all 0.15s', letterSpacing: '0.04em',
                 }}>
-                  {cat}{cat !== 'Tous' && <span style={{ opacity: 0.45, marginLeft: 5 }}>({PORTFOLIO_ITEMS.filter(p => p.category === cat).length})</span>}
+                  {cat}{cat !== 'Tous' && <span style={{ opacity: 0.45, marginLeft: 5 }}>({items.filter(p => p.category === cat).length})</span>}
                 </button>
               ))}
             </div>

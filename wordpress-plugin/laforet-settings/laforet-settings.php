@@ -73,10 +73,30 @@ function laforet_defaults() {
         // Footer
         'laforet_footer_tagline' => 'Agence de design créatif. Branding, communication 360 et solutions digitales pour les marques ambitieuses.',
         // ── Notifications formulaire ──────────────────────────────────────────
-        'laforet_notif_email'    => get_option( 'admin_email' ),  // email de réception
+        'laforet_notif_email'    => get_option( 'admin_email' ),
         // ── Notion (optionnel) ────────────────────────────────────────────────
         'laforet_notion_key'     => '',
         'laforet_notion_db'      => '',
+        // ── Services ──────────────────────────────────────────────────────────
+        'laforet_svc_branding_tagline'     => "Créer l'attachement émotionnel.",
+        'laforet_svc_branding_desc'        => "Votre marque est votre actif le plus précieux. Nous la construisons pour qu'elle inspire confiance, crée de l'attachement et se distingue durablement dans l'esprit de vos clients.",
+        'laforet_svc_branding_prestations' => "Logo design\nIdentité visuelle complète\nCharte graphique\nNaming & baseline\nTerritoire de marque\nBrand book\nMotion identity\nDéclinaisons supports",
+        'laforet_svc_branding_image'       => '',
+        'laforet_svc_com360_tagline'       => "Amplifier votre présence partout.",
+        'laforet_svc_com360_desc'          => "Du print au digital, du packaging aux campagnes publicitaires : nous orchestrons votre communication pour qu'elle soit cohérente, impactante et mémorable sur tous les points de contact.",
+        'laforet_svc_com360_prestations'   => "Stratégie de communication\nSupports print (brochures, flyers, affiches)\nPackaging & étiquetage\nCampagnes publicitaires\nContenu réseaux sociaux\nDirection artistique photo/vidéo\nPLV & signalétique\nRelations presse (visuels)",
+        'laforet_svc_com360_image'         => '',
+        'laforet_svc_digital_tagline'      => "Convertir et fidéliser en ligne.",
+        'laforet_svc_digital_desc'         => "Sites web, interfaces applicatives, design systems et expériences digitales conçus pour performer : chaque pixel est pensé pour guider l'utilisateur et atteindre vos objectifs business.",
+        'laforet_svc_digital_prestations'  => "Site web vitrine\nLanding page optimisée\nUI/UX Design\nDesign system\nE-commerce (UI)\nMotion design & micro-interactions\nContenus digitaux\nAudit UX & refonte",
+        'laforet_svc_digital_image'        => '',
+        'laforet_svc_coaching_tagline'     => "Former et accompagner vos équipes.",
+        'laforet_svc_coaching_desc'        => "Coaching branding individuel et formations design pour entrepreneurs et équipes créatives. Apprenez à maîtriser Figma, clarifier votre positionnement et communiquer avec impact.",
+        'laforet_svc_coaching_prestations' => "Coaching branding individuel\nFormation Design Figma (2 jours)\nWorkshop COM 360 Équipe\nAudit de marque personnalisé\nMentorat créatif\nFormation direction artistique",
+        'laforet_svc_coaching_image'       => '',
+        // ── Médias / Images ───────────────────────────────────────────────────
+        'laforet_media_hero_image'     => '',
+        'laforet_media_og_image'       => '',
     ];
 }
 
@@ -85,6 +105,10 @@ function laforet_textarea_fields() {
         'laforet_hero_description',
         'laforet_testi1_text', 'laforet_testi2_text', 'laforet_testi3_text',
         'laforet_clients', 'laforet_footer_tagline',
+        'laforet_svc_branding_desc', 'laforet_svc_branding_prestations',
+        'laforet_svc_com360_desc',   'laforet_svc_com360_prestations',
+        'laforet_svc_digital_desc',  'laforet_svc_digital_prestations',
+        'laforet_svc_coaching_desc', 'laforet_svc_coaching_prestations',
     ];
 }
 
@@ -218,6 +242,34 @@ function laforet_render_settings_page() {
             'laforet_notion_key' => 'Clé API Notion (secret_xxxxx)',
             'laforet_notion_db'  => 'ID de la base de données Notion',
         ],
+        '◈ Service — Branding' => [
+            'laforet_svc_branding_tagline'     => 'Accroche courte',
+            'laforet_svc_branding_desc'        => 'Description (paragraphe)',
+            'laforet_svc_branding_prestations' => 'Prestations (une par ligne)',
+            'laforet_svc_branding_image'       => 'URL image d\'en-tête (ex: https://…/branding.jpg)',
+        ],
+        '◉ Service — Communication 360' => [
+            'laforet_svc_com360_tagline'     => 'Accroche courte',
+            'laforet_svc_com360_desc'        => 'Description (paragraphe)',
+            'laforet_svc_com360_prestations' => 'Prestations (une par ligne)',
+            'laforet_svc_com360_image'       => 'URL image d\'en-tête',
+        ],
+        '◎ Service — Solutions Digitales' => [
+            'laforet_svc_digital_tagline'     => 'Accroche courte',
+            'laforet_svc_digital_desc'        => 'Description (paragraphe)',
+            'laforet_svc_digital_prestations' => 'Prestations (une par ligne)',
+            'laforet_svc_digital_image'       => 'URL image d\'en-tête',
+        ],
+        '🎓 Service — Coaching & Formation' => [
+            'laforet_svc_coaching_tagline'     => 'Accroche courte',
+            'laforet_svc_coaching_desc'        => 'Description (paragraphe)',
+            'laforet_svc_coaching_prestations' => 'Prestations (une par ligne)',
+            'laforet_svc_coaching_image'       => 'URL image d\'en-tête',
+        ],
+        '🖼️ Médias & Images' => [
+            'laforet_media_hero_image' => 'Image hero (optionnel — URL)',
+            'laforet_media_og_image'   => 'Image Open Graph (partage réseaux sociaux — URL)',
+        ],
     ];
     ?>
     <div class="wrap">
@@ -276,6 +328,9 @@ add_action( 'rest_api_init', function () {
 } );
 
 function laforet_api_settings() {
+    // Cache 5 min navigateur + CDN, invalide sur POST (save settings)
+    header( 'Cache-Control: public, max-age=300, s-maxage=300' );
+
     $d = laforet_defaults();
     $g = fn( $key ) => get_option( $key, $d[ $key ] ?? '' );
 
@@ -311,6 +366,36 @@ function laforet_api_settings() {
             'youtube'  => $g( 'laforet_social_youtube' ),
         ],
         'footer' => [ 'tagline' => $g( 'laforet_footer_tagline' ) ],
+        'services' => [
+            'branding' => [
+                'tagline'     => $g( 'laforet_svc_branding_tagline' ),
+                'description' => $g( 'laforet_svc_branding_desc' ),
+                'prestations' => array_values( array_filter( array_map( 'trim', explode( "\n", $g( 'laforet_svc_branding_prestations' ) ) ) ) ),
+                'image'       => $g( 'laforet_svc_branding_image' ),
+            ],
+            'com-360' => [
+                'tagline'     => $g( 'laforet_svc_com360_tagline' ),
+                'description' => $g( 'laforet_svc_com360_desc' ),
+                'prestations' => array_values( array_filter( array_map( 'trim', explode( "\n", $g( 'laforet_svc_com360_prestations' ) ) ) ) ),
+                'image'       => $g( 'laforet_svc_com360_image' ),
+            ],
+            'solutions-digitales' => [
+                'tagline'     => $g( 'laforet_svc_digital_tagline' ),
+                'description' => $g( 'laforet_svc_digital_desc' ),
+                'prestations' => array_values( array_filter( array_map( 'trim', explode( "\n", $g( 'laforet_svc_digital_prestations' ) ) ) ) ),
+                'image'       => $g( 'laforet_svc_digital_image' ),
+            ],
+            'coaching' => [
+                'tagline'     => $g( 'laforet_svc_coaching_tagline' ),
+                'description' => $g( 'laforet_svc_coaching_desc' ),
+                'prestations' => array_values( array_filter( array_map( 'trim', explode( "\n", $g( 'laforet_svc_coaching_prestations' ) ) ) ) ),
+                'image'       => $g( 'laforet_svc_coaching_image' ),
+            ],
+        ],
+        'media' => [
+            'hero_image' => $g( 'laforet_media_hero_image' ),
+            'og_image'   => $g( 'laforet_media_og_image' ),
+        ],
     ] );
 }
 
