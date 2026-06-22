@@ -179,12 +179,32 @@ export default function ServicePage() {
                   <hr style={{ border: 'none', borderTop: `1px solid ${plan.highlight ? 'rgba(255,255,255,0.1)' : '#E8E8E8'}`, marginBottom: '1.5rem' }} />
 
                   <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.65rem', marginBottom: '1.5rem', flex: 1 }}>
-                    {plan.features.map((f, j) => (
-                      <li key={j} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                        <Check size={14} color={plan.highlight ? '#60A5FA' : '#0A0A0A'} style={{ flexShrink: 0, marginTop: 2 }} strokeWidth={2.5} />
-                        <span style={{ fontFamily: 'Archivo,sans-serif', fontSize: 13, color: plan.highlight ? 'rgba(255,255,255,0.75)' : '#333', lineHeight: 1.5 }}>{f}</span>
-                      </li>
-                    ))}
+                    {plan.features.map((f, j) => {
+                      if (typeof f === 'object' && f.sub) {
+                        return (
+                          <li key={j}>
+                            <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                              <Check size={14} color={plan.highlight ? '#60A5FA' : '#0A0A0A'} style={{ flexShrink: 0, marginTop: 2 }} strokeWidth={2.5} />
+                              <span style={{ fontFamily: 'Archivo,sans-serif', fontSize: 13, fontWeight: 700, color: plan.highlight ? 'rgba(255,255,255,0.85)' : '#0A0A0A', lineHeight: 1.5 }}>{f.text}</span>
+                            </div>
+                            <ul style={{ listStyle: 'none', marginLeft: 24, marginTop: 6, display: 'flex', flexDirection: 'column', gap: 5 }}>
+                              {f.sub.map((s, k) => (
+                                <li key={k} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                                  <span style={{ width: 4, height: 4, background: plan.highlight ? 'rgba(255,255,255,0.3)' : '#CCC', borderRadius: '50%', flexShrink: 0, marginTop: 7 }} />
+                                  <span style={{ fontFamily: 'Archivo,sans-serif', fontSize: 12, color: plan.highlight ? 'rgba(255,255,255,0.55)' : '#555', lineHeight: 1.5 }}>{s}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </li>
+                        )
+                      }
+                      return (
+                        <li key={j} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                          <Check size={14} color={plan.highlight ? '#60A5FA' : '#0A0A0A'} style={{ flexShrink: 0, marginTop: 2 }} strokeWidth={2.5} />
+                          <span style={{ fontFamily: 'Archivo,sans-serif', fontSize: 13, color: plan.highlight ? 'rgba(255,255,255,0.75)' : '#333', lineHeight: 1.5 }}>{f}</span>
+                        </li>
+                      )
+                    })}
                     {plan.excluded.map((f, j) => (
                       <li key={`x${j}`} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                         <X size={14} color={plan.highlight ? 'rgba(255,255,255,0.15)' : '#CCC'} style={{ flexShrink: 0, marginTop: 2 }} strokeWidth={2} />
