@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Clock } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
 import Reveal from '../components/ui/Reveal'
 import CTABanner from '../components/sections/CTABanner'
 import { RESSOURCE_TYPES, COACHING } from '../data/mockData'
@@ -67,7 +68,7 @@ export default function Ressources() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5px', background: '#E8E8E8' }} className="resources-grid">
             {filtered.map((r, i) => (
               <Reveal key={r.id} delay={i * 80}>
-                <a href={r.link} target="_blank" rel="noreferrer" style={{ display: 'block', textDecoration: 'none', background: '#fff', transition: 'background 0.15s' }}
+                <Link to={`/ressources/${r.slug}`} style={{ display: 'block', textDecoration: 'none', background: '#fff', transition: 'background 0.15s' }}
                   onMouseEnter={e => e.currentTarget.style.background = '#FAFAFA'}
                   onMouseLeave={e => e.currentTarget.style.background = '#fff'}
                 >
@@ -94,7 +95,7 @@ export default function Ressources() {
                       Lire <ArrowRight size={11} />
                     </span>
                   </div>
-                </a>
+                </Link>
               </Reveal>
             ))}
           </div>

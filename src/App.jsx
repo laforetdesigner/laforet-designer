@@ -9,6 +9,7 @@ const Portfolio   = lazy(() => import('./pages/Portfolio'))
 const Services    = lazy(() => import('./pages/Services'))
 const ServicePage = lazy(() => import('./pages/ServicePage'))
 const Ressources  = lazy(() => import('./pages/Ressources'))
+const ArticlePage = lazy(() => import('./pages/ArticlePage'))
 const Contact     = lazy(() => import('./pages/Contact'))
 
 function Loader() {
@@ -32,6 +33,8 @@ export default function App() {
             <Route path="/services"                      element={<Services />} />
             <Route path="/services/:slug"                element={<ServicePage />} />
             <Route path="/ressources"                    element={<Ressources />} />
+            <Route path="/ressources/:slug"              element={<ArticlePage backPath="/ressources" backLabel="Ressources" />} />
+            <Route path="/portfolio/:slug"               element={<ArticlePage backPath="/portfolio" backLabel="Portfolio" />} />
             <Route path="/contact"                       element={<Contact />} />
           </Routes>
         </Suspense>

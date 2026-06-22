@@ -75,7 +75,8 @@ export default function Portfolio() {
             <AnimatePresence>
               {filtered.map(item => (
                 <motion.a key={item.id} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}
-                  href={item.link} target="_blank" rel="noreferrer"
+                  href={item.slug ? `/portfolio/${item.slug}` : item.link}
+                  target={item.slug ? undefined : '_blank'} rel={item.slug ? undefined : 'noreferrer'}
                   style={{ display: 'block', textDecoration: 'none', background: '#fff' }}>
                   <div style={{ overflow: 'hidden', aspectRatio: '4/3' }}>
                     <img src={item.thumb} alt={item.title} loading="lazy"
